@@ -9,10 +9,15 @@ class Book(models.Model):
 	link = models.URLField()
 	img = models.URLField()
 
+	def __str__(self):
+		return self.title
+
 class Author(models.Model):
 	books = models.ManyToManyField(Book)
 	fname = models.CharField(max_length = 20)
 	lname = models.CharField(max_length = 30)
 
+	def __str__(self):
+		return self.lname
 
 # Create your models here.
