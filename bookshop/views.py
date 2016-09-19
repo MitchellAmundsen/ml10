@@ -4,7 +4,9 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Book, Author
 from .serializers import BookSerializer, AuthorSerializer
+from ratelimit.decorators import ratelimit
 
+@ratelimit(key='ip', rate='10/m', block=True)
 @api_view(['GET', 'POST'])
 def book_list(request, format=None):
 	if request.method == 'GET':
@@ -18,6 +20,8 @@ def book_list(request, format=None):
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+@ratelimit(key='ip', rate='10/m', block=True)
 @api_view(['GET', 'PUT', 'DELETE'])
 def book_detail(request, pk, format=None):
 	try:
@@ -40,6 +44,7 @@ def book_detail(request, pk, format=None):
 
 
 
+@ratelimit(key='ip', rate='10/m', block=True)
 @api_view(['GET', 'POST'])
 def author_list(request, format=None):
 	if request.method == 'GET':
@@ -53,6 +58,7 @@ def author_list(request, format=None):
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@ratelimit(key='ip', rate='10/m', block=True)
 @api_view(['GET', 'PUT', 'DELETE'])
 def author_detail(request, pk, format=None):
 	try:
